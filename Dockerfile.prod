@@ -6,15 +6,12 @@ RUN go install -v ./... \
     && go clean -cache \
     && go clean -testcache \
    && go clean -r      
-#Como não tem interação no site vou colocar aqui as observações.
-#Não tem como chegar em uma imagem com menos de 3MB uma vez que a menor image do alpine sem nada tem mais de 5mb
-#Ainda precisso do GO pra executar o codigo, eu tentem criar com uma maquina alpine pura e instalar o GO ainda tive um resultado acima de 3MB.
-#Então ou a proposta do desafio esta desatualizado ou esta faltando alguma coisa que deveria ser falada na aula.
-FROM golang:1.17-alpine3.15
-WORKDIR /go/src
-COPY --from=builder /go/bin /go/bin
 
-ENTRYPOINT [ "hello" ]
+FROM scratch
+
+COPY --from=builder /go/bin/hello /go/bin/hello
+
+ENTRYPOINT ["/go/bin/hello"]
 
 
 
